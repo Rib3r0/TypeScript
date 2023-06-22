@@ -22527,5 +22527,82 @@ export const getEstados = async () => {
     return {uf: listEstados, quantidade: listEstados.length }
 }
 
+export const getDadosEstado =async (sigla: string) => {
+   let estadoResult = estadosCidades.estados.filter( (estado) => {
+      return estado.sigla == sigla 
+   })
+
+   if (estadoResult.length == 0) {
+      return {message:"Estado não encontrado"}
+   }else{
+      return estadoResult
+   }
+
+}
+
+export const getCapitalEstado =async (sigla: string) => {
+   let capitalResult = estadosCidades.estados.filter( (estado) => {
+      return estado.sigla == sigla
+   })
+
+   if (capitalResult.length == 0) {
+      return {message:"Estado não encontrado"}
+   }else{
+      return {estado: capitalResult[0].sigla,  capital: capitalResult[0].capital}
+   }
+}
+
+export const getEstadoRegião =async (regiao: string) => {
+   let listEstados = estadosCidades.estados.filter( (estado) => {
+      return estado.regiao.toUpperCase() == regiao
+   })
+   
+   if (listEstados.length == 0) {
+      return {message:"Região não encontrada"}
+   }else{
+      let estados = listEstados.map( (estado) => { return estado.nome})
+      
+      return {regiao: regiao,  estados: estados }
+   }
+}
+
+export const getCapital =async () => {
+   let listEstados = estadosCidades.estados.filter( (estado) => {
+      return estado.capital_pais != undefined
+   })
+   
+   let estados = listEstados.map( 
+      (estado) => { 
+         return {
+            capital_atual: estado.capital_pais?.capital,
+            uf: estado.sigla,
+            nome: estado.nome,
+            capital: estado.capital,
+            regiao: estado.regiao,
+            capital_pais_ano_inicio: estado.capital_pais?.ano_inicio,
+            capital_pais_ano_termino : estado.capital_pais?.ano_fim
+         }
+      }
+   )
+      
+   return {capitais: estados }
+   
+}
+
+export const getCidades =async (sigla: string) => {
+   let cidadesResult = estadosCidades.estados.filter( (estado) => {
+      return estado.sigla == sigla 
+   })
+
+   if (cidadesResult.length == 0) {
+      return {message:"Estado não encontrado"}
+   }else{
+      let cidades = cidadesResult[0].cidades
+      return {uf: sigla, nome: cidadesResult[0].nome, quantidade_cidades: cidades.length, cidades: cidades}
+   }
+
+}
+
+
 
 
